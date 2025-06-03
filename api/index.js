@@ -20,8 +20,8 @@ app.use(express.static('public'));
 app.get('/api/documents', async (req, res) => {
 	try {
 		await client.connect(); //Ensure connection is Open
-		const database = client.db("ComposerData");
-		const collection = database.collection("2025Live");
+		const database = client.db("Composer_Data");
+		const collection = database.collection("2025");
 		
 		const documents = await collection.find({}).toArray();
 		//sends documents as JSON data to browser
