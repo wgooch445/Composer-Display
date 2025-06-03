@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting notes</title>
+    <style>
+        /* CSS styles go here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Makes borders touch */
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* A subtle shadow */
+            background-color: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd; /* Light grey borders */
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50; /* Green header background */
+            color: white; /* White text for headers */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Zebra striping for rows */
+        }
+        tr:hover {
+            background-color: #ddd; /* Highlight row on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Troubleshooting notes</h1>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Document #</th>
+                <th>Help Desk Tech</th> <th>Troubleshooting Steps</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+    <script>
+        // This JavaScript runs in the user's web browser!
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Corrected variable name to be consistent: tableBody
+            const tableBody = document.querySelector('#data-table tbody'); 
+
+            try {
+                // Fetch data from the API endpoint
+                const response = await fetch('/api/documents');
+                const documents = await response.json(); // Parse the response as JSON
+
+                if (documents.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3">No documents found to display.</td></tr>';
+                } else {
+                    // Clear "Loading data..." message
+                    tableBody.innerHTML = '';
+
+                    // Loop through the documents and display them
+                    documents.forEach((doc, index) => {
+                        const row = document.createElement('tr');
+                        
+                        row.innerHTML = `
+                            <td>${index + 1}</td> <td>${doc["Help Desk Tech"]}</td>
+                            <td>${doc["Troubleshooting Steps "]}</td> `;
+                        tableBody.appendChild(row); // Corrected variable name to match declaration
+
+                    });
+                }
+
+            } catch (error) {
+                tableBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
+                console.error("Error fetching or displaying documents:", error);
+            }
+        });
+    </script>
+</body>
+</html>
+
