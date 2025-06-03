@@ -1,44 +1,64 @@
-// 1. Import the Express.js library
+// 1. Import necessary libraries
 const express = require('express');
+const { MongoClient } = require('mongodb'); // MongoDB Driver
 
-// 2. Create an Express application instance
+// 2. Initialize the Express application
 const app = express();
 
-// 3. Define a port number for your server to listen on
-const port = 3000; // http://localhost:3000
-
-//Mongo connection deets
-const { MongoClient } = require('mongodb');
+// 3. Configure MongoDB Connection
+// CRITICAL: This URI comes from Vercel's Environment Variables (MONGODB_URI)
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
-// Tell express to serve static files from the public folder
+// 4. Configure Static File Serving (for local development primarily)
+// On Vercel, the 'public' folder is served automatically by Vercel's static file server
+// so this line mainly affects how it behaves if you run 'node api/index.js' locally.
 app.use(express.static('public'));
 
-
-//API endpoint
+// 5. Define the API endpoint to fetch documents from MongoDB
 app.get('/api/documents', async (req, res) => {
-	try {
-		await client.connect(); //Ensure connection is Open
-		const database = client.db("Composer_Data");
-		const collection = database.collection("2025");
-		
-		const documents = await collection.find({}).toArray();
-		//sends documents as JSON data to browser
-		res.json(documents); // res.json() automatically sends data as json
-		
-	} catch (error) {
-		console.error('Error fetching data for API:', error);
-		res.status(500).json({ message: "Error fetching data" }); //error response
-	} finally {
-	// await client.close(); //commented out
-	}
+    try {
+        // Ensure the MongoDB client is connected
+        // For serverless functions, the client might reconnect on each invocation
+        // or a persistent connection is managed by the runtime.
+        await client.connect(); 
+
+        // CRITICAL: Replace 'YOUR_DATABASE_NAME' and 'YOUR_COLLECTION_NAME'
+        // with the EXACT names from your MongoDB Atlas cluster.
+        // Pay attention to capitalization!
+        const database = client.db("Composer_Data");
+        const collection = database.collection("2025");
+
+        // Fetch all documents from the collection
+        const documents = await collection.find({}).toArray();
+
+        // Send the fetched documents as JSON response to the browser
+        res.json(documents);
+
+    } catch (error) {
+        // Log the error for debugging purposes (you'll see this in Vercel logs)
+        console.error("Error fetching data for API:", error);
+        // Send a 500 Internal Server Error response to the client
+        res.status(500).json({ message: "Error fetching data from server." });
+    } finally {
+        // In a serverless environment like Vercel, managing connections is nuanced.
+        // For simplicity and avoiding common connection issues, we usually don't
+        // explicitly close the client here in the serverless function, as Vercel
+        // manages the lifecycle. If you uncomment client.close(), it might lead
+        // to connection issues on subsequent requests.
+        // await client.close(); 
+    }
 });
 
-// 5. Start the server and make it listen for incoming requests
-//app.listen(port, () => {
-  //console.log(`Server listening at http://localhost:${port}`);
- // console.log('Open your web browser and go to this address!');
- // console.log('To see the raw data, visit http://localhost:3000/api/documents');
-});
+// 6. Export the Express app instance
+// This is CRITICAL for Vercel to recognize your serverless function.
 module.exports = app;
+
+// IMPORTANT for local testing:
+// If you run 'node api/index.js' locally, you won't automatically serve 'index.html'
+// directly from this file unless you add specific routes for it.
+// For local testing of the full app, you might start a simple local server
+// that serves your 'public' folder and proxies API requests.
+// However, the current setup is primarily for Vercel's deployment model.
+
+
