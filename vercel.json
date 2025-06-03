@@ -11,6 +11,5 @@
       "src": "/api/(.*)",
       "dest": "/api/index.js"
     }
-    // Remove the static file route, let Vercel handle it automatically
   ]
 }
