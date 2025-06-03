@@ -9,7 +9,7 @@ const port = 3000; // http://localhost:3000
 
 //Mongo connection deets
 const { MongoClient } = require('mongodb');
-const uri = "mongodb://localhost:27017";
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
 // Tell express to serve static files from the public folder
