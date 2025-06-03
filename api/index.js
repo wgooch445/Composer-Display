@@ -9,7 +9,7 @@ const port = 3000; // http://localhost:3000
 
 //Mongo connection deets
 const { MongoClient } = require('mongodb');
-const uri = "mongodb://localhost:27017";
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
 // Tell express to serve static files from the public folder
@@ -36,8 +36,9 @@ app.get('/api/documents', async (req, res) => {
 });
 
 // 5. Start the server and make it listen for incoming requests
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-  console.log('Open your web browser and go to this address!');
-  console.log('To see the raw data, visit http://localhost:3000/api/documents');
+//app.listen(port, () => {
+  //console.log(`Server listening at http://localhost:${port}`);
+ // console.log('Open your web browser and go to this address!');
+ // console.log('To see the raw data, visit http://localhost:3000/api/documents');
 });
+module.exports = app;
