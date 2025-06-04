@@ -47,16 +47,3 @@ app.get('/api/documents', async (req, res) => {
 	app.listen(port, () => {
 		console.log(`server listening on port ${port}`);
 });
-
-// 6. Export the Express app instance
-// This is CRITICAL for Vercel to recognize your serverless function.
-
-
-// IMPORTANT for local testing:
-// If you run 'node api/index.js' locally, you won't automatically serve 'index.html'
-// directly from this file unless you add specific routes for it.
-// For local testing of the full app, you might start a simple local server
-// that serves your 'public' folder and proxies API requests.
-// However, the current setup is primarily for Vercel's deployment model.
-
-
