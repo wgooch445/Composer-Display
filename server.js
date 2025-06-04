@@ -6,13 +6,11 @@ const { MongoClient } = require('mongodb'); // MongoDB Driver
 const app = express();
 
 // 3. Configure MongoDB Connection
-// CRITICAL: This URI comes from Vercel's Environment Variables (MONGODB_URI)
+
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
 // 4. Configure Static File Serving (for local development primarily)
-// On Vercel, the 'public' folder is served automatically by Vercel's static file server
-// so this line mainly affects how it behaves if you run 'node api/index.js' locally.
 app.use(express.static('public'));
 
 // 5. Define the API endpoint to fetch documents from MongoDB
@@ -41,18 +39,18 @@ app.get('/api/documents', async (req, res) => {
         // Send a 500 Internal Server Error response to the client
         res.status(500).json({ message: "Error fetching data from server." });
     } finally {
-        // In a serverless environment like Vercel, managing connections is nuanced.
-        // For simplicity and avoiding common connection issues, we usually don't
-        // explicitly close the client here in the serverless function, as Vercel
-        // manages the lifecycle. If you uncomment client.close(), it might lead
-        // to connection issues on subsequent requests.
         // await client.close(); 
     }
+	
+	//6. start the server and make it listen to incomign requests.
+	const port = process.env.PORT || 3000;
+	app.listen(port, () => {
+		console.log(`server listening on port ${port}`);
 });
 
 // 6. Export the Express app instance
 // This is CRITICAL for Vercel to recognize your serverless function.
-module.exports = app;
+
 
 // IMPORTANT for local testing:
 // If you run 'node api/index.js' locally, you won't automatically serve 'index.html'
