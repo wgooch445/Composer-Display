@@ -39,7 +39,7 @@ app.get('/api/documents', async (req, res) => {
         // Send a 500 Internal Server Error response to the client
         res.status(500).json({ message: "Error fetching data from server." });
     } finally {
-        // await client.close(); 
+    }   // await client.close(); 
     }
 	
 	//6. start the server and make it listen to incomign requests.
