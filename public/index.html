@@ -2,25 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+content="width=device-width,
+initial-scale=1.0">
     <title>Troubleshooting Notes</title>
-    <link rel="stylesheet"
-        href="style.css"
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Troubleshooting notes</h1>
-   <div style="overflow-x: auto;"> 
+   <div class="table-responsive">
        <table id="data-table">
-       </table>
         <thead>
             <tr>
                 <th>Document #</th>
-                <th>Help Desk Tech</th> <th>Troubleshooting Steps</th>
+                <th>HelpDesk Tech</th> 
+                <th>Troubleshooting Steps</th>
             </tr>
         </thead>
         <tbody>
             </tbody>
-    </table>
+       </table>
+   </div>
 
     <script>
         // This JavaScript runs in the user's web browser!
@@ -31,6 +33,9 @@
             try {
                 // Fetch data from the API endpoint
                 const response = await fetch('/api/documents');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status ${response.status}`);
+                }
                 const documents = await response.json(); // Parse the response as JSON
 
                 if (documents.length === 0) {
