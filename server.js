@@ -19,7 +19,7 @@ app.get('/api/documents', async (req, res) => {
         // Ensure the MongoDB client is connected
         // For serverless functions, the client might reconnect on each invocation
         // or a persistent connection is managed by the runtime.
-        await client.connect(); 
+	    { await client.connect(); 
 
         // CRITICAL: Replace 'YOUR_DATABASE_NAME' and 'YOUR_COLLECTION_NAME'
         // with the EXACT names from your MongoDB Atlas cluster.
