@@ -28,7 +28,7 @@ app.get('/api/documents', async (req, res) => {
         const collection = database.collection("2025");
 
         // Fetch all documents from the collection
-        const documents = await collection.find({}).toArray();
+        const documents = await collection.find({}).toArray()};
 
         // Send the fetched documents as JSON response to the browser
         res.json(documents);
