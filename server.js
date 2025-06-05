@@ -14,7 +14,9 @@ const client = new MongoClient(uri);
 app.use(express.static('public'));
 
 // 5. Define the API endpoint to fetch documents from MongoDB
-app.get('/api/documents', async (req, res) => {
+app.get('/api/documents', async (req, res) => 
+	{
+		let documents; // declaring documents outside the try block
     try { 
 	    { 
 	    await client.connect(); 
@@ -23,7 +25,7 @@ app.get('/api/documents', async (req, res) => {
         const collection = database.collection("2025");
 
         // Fetch all documents from the collection
-        const documents = await collection.find({}).toArray()};
+        documents = await collection.find({}).toArray()};
 
         // Send the fetched documents as JSON response to the browser
         res.json(documents);
@@ -32,7 +34,7 @@ app.get('/api/documents', async (req, res) => {
         // Log the error for debugging purposes
         console.error("Error fetching data for API:", error);
         // Send a 500 Internal Server Error response to the client
-        res.status(500).json({ message: "Error fetching data from server." });
+        res.status(500).json({ message: "Error fetching data from server.", details: error.message });
     } finally {
     }
     });
