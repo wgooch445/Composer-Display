@@ -15,15 +15,10 @@ app.use(express.static('public'));
 
 // 5. Define the API endpoint to fetch documents from MongoDB
 app.get('/api/documents', async (req, res) => {
-    try {
-        // Ensure the MongoDB client is connected
-        // For serverless functions, the client might reconnect on each invocation
-        // or a persistent connection is managed by the runtime.
-	    { await client.connect(); 
+    try { 
+	    { 
+	    await client.connect(); 
 
-        // CRITICAL: Replace 'YOUR_DATABASE_NAME' and 'YOUR_COLLECTION_NAME'
-        // with the EXACT names from your MongoDB Atlas cluster.
-        // Pay attention to capitalization!
         const database = client.db("Composer_Data");
         const collection = database.collection("2025");
 
@@ -34,13 +29,13 @@ app.get('/api/documents', async (req, res) => {
         res.json(documents);
 
     } catch (error) {
-        // Log the error for debugging purposes (you'll see this in Vercel logs)
+        // Log the error for debugging purposes
         console.error("Error fetching data for API:", error);
         // Send a 500 Internal Server Error response to the client
         res.status(500).json({ message: "Error fetching data from server." });
     } finally {
-    }   // await client.close(); 
     }
+    });
 	
 	//6. start the server and make it listen to incomign requests.
 	const port = process.env.PORT || 3000;
