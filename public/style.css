@@ -67,20 +67,20 @@ td:nth-child(2) {
 }
 
 /*styling for troubleshooting steps*/
-th:nth-child(3)
-td:nth-child(3) {
-            width: 65%;
+th:nth-child(5)
+td:nth-child(5) {
+            width: 75%;
             min-width: 300px;
 }
 /*styling for Timestamp*/
-th:nth-child(4)
-td:nth-child(4) {
+th:nth-child(3)
+td:nth-child(3) {
             width: 25%;
             min-width: 150px;
 }
 /*styling for Affected Device*/
-th:nth-child(5)
-td:nth-child(5) {
+th:nth-child(4)
+td:nth-child(4) {
             width: 30%;
             min-width: 200px;
 }
