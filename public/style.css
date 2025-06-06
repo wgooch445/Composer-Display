@@ -27,20 +27,48 @@ h1 {
             border-collapse: collapse; /* Makes borders touch */
             margin-top: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* PICK BACK UP HERE */
-            background-color: #fff;
+            background-color: #ffffff;
+                    border-radius: 8px;
+                    overflow:hidden;
+                    table-layout: fixed;
         }
         th, td {
-            border: 1px solid #ddd; /* Light grey borders */
-            padding: 12px;
+            border: 1px solid #e0e0e0; /* Light grey borders */
+            padding: 15px;
             text-align: left;
+                    word-wrap: break-word;
         }
         th {
-            background-color: #4CAF50; /* Green header background */
+            background-color: #3498db; /* blue for headers */
             color: white; /* White text for headers */
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing 0.05em;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2; /* Zebra striping for rows */
+            background-color: #f8fbfd; /* Zebra striping for rows */
         }
         tr:hover {
-            background-color: #ddd; /* Highlight row on hover */
+            background-color: #eaf6fd; /* light blue on hover */
+            cursor: pointer; /* indicates its clickable */
         }
+/* making first column smaller */
+th:nth-child(1),
+td:nth-child(1) {
+            width: 10%;
+            min-width: 60px;
+            text-align: center;
+}
+/*styling for Help Desk Tech column */
+th:nth-child(2)
+td:nth-child(2) {
+            width: 25%;
+            min-width: 150px;
+}
+
+/*styling for troubleshooting steps*/
+th:nth-child(3)
+td:nth-child(3) {
+            width: 65%;
+            min-width: 300px;
+}
