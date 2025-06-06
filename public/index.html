@@ -51,10 +51,12 @@ initial-scale=1.0">
             searchInput.addEventListener('keyup', () => { 
                 const searchTerm = searchInput.value.toLowerCase(); 
                 const filteredDocuments = allDocuments.filter(doc => {
-                    const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : ''; // Corrected from doc[Help Desk tech"]
+                    const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
                     const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
+                    const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : '';
+                    const device =["Affected Device"] ? doc["Affected Device"].toLowerCase() : '';
 
-                    return tech.includes(searchTerm) || steps.includes(searchTerm);
+                    return tech.includes(searchTerm) || steps.includes(searchTerm) || time.includes(searchTerm) || device.includes(searchTerm);
                 });
                 displayDocuments(filteredDocuments);
             }); // This closes the keyup event listener's callback function
