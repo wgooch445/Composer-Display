@@ -31,16 +31,34 @@ initial-scale=1.0">
     <script>
         // This JavaScript runs in the user's web browser!
         document.addEventListener('DOMContentLoaded', async () => {
-            // Corrected variable name to be consistent: tableBody
-            const tableBody = document.querySelector('#data-table tbody'); 
+            const tableBody = document.querySelector('#data-table tbody');
+            const searchInput =
+                document.getElementById(searchInput');
 
             try {
-                // Fetch data from the API endpoint
                 const response = await fetch('/api/documents');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status ${response.status}`);
                 }
-                const documents = await response.json(); // Parse the response as JSON
+                allDocuments = await response.json(); // assign fetched documents to global variable
+                //inital display of all docs
+                displayDocuments(alldocuments);
+                    //event listener for search
+                searchInput.addEventListener('keyup', () =>
+                    { //keyup listsns for every keypress
+                        const searchTerm = searchInput.value.toLowerCase(); //converts to lowercase for case-insensitive search
+                        const filteredDocuments = allDocuments.filter(doc => {
+                            //checks for search terms in the categories for help desk tech and notes
+                            const tech = doc["Help Desk tech"] ? doc[Help Desk tech"].toLowerCase() : '';
+                            const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting steps "].toLowerCase() : '';
+                            return
+                            tech.includes(searchTerm) ||
+                                steps.includes(searchTerm);
+                        });
+                        displayDocuments(filteredDocuments);
+                    });
+            function
+                displayDocuments(documentsToDisplay) { const tableBody = document.querySelector('data-table tbody');
 
                 if (documents.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="3">No documents found to display.</td></tr>';
