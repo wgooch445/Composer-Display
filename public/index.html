@@ -29,61 +29,79 @@ initial-scale=1.0">
    </div>
 
     <script>
-        // This JavaScript runs in the user's web browser!
-        document.addEventListener('DOMContentLoaded', async () => {
-            const tableBody = document.querySelector('#data-table tbody');
-            const searchInput =
-                document.getElementById(searchInput');
+    let allDocuments = []; // This will store the full list of documents
 
-            try {
-                const response = await fetch('/api/documents');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status ${response.status}`);
-                }
-                allDocuments = await response.json(); // assign fetched documents to global variable
-                //inital display of all docs
-                displayDocuments(alldocuments);
-                    //event listener for search
-                searchInput.addEventListener('keyup', () =>
-                    { //keyup listsns for every keypress
-                        const searchTerm = searchInput.value.toLowerCase(); //converts to lowercase for case-insensitive search
-                        const filteredDocuments = allDocuments.filter(doc => {
-                            //checks for search terms in the categories for help desk tech and notes
-                            const tech = doc["Help Desk tech"] ? doc[Help Desk tech"].toLowerCase() : '';
-                            const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting steps "].toLowerCase() : '';
-                            return
-                            tech.includes(searchTerm) ||
-                                steps.includes(searchTerm);
-                        });
-                        displayDocuments(filteredDocuments);
-                    });
-            function
-                displayDocuments(documentsToDisplay) { const tableBody = document.querySelector('data-table tbody');
+    document.addEventListener('DOMContentLoaded', async () => {
+        const tableBody = document.querySelector('#data-table tbody');
+        // FIX 1: Missing opening quote for 'searchInput' string literal in getElementById
+        const searchInput = document.getElementById('searchInput'); // Corrected from getElementById(searchInput')
 
-                if (documents.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="3">No documents found to display.</td></tr>';
-                } else {
-                    // Clear "Loading data..." message
-                    tableBody.innerHTML = '';
-
-                    // Loop through the documents and display them
-                    documents.forEach((doc, index) => {
-                        const row = document.createElement('tr');
-                        
-                        row.innerHTML = `
-                            <td>${index + 1}</td> <td>${doc["Help Desk Tech"]}</td>
-                            <td>${doc["Troubleshooting Steps "]}</td> `;
-                        tableBody.appendChild(row); // Corrected variable name to match declaration
-
-                    });
-                }
-
-            } catch (error) {
-                tableBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
-                console.error("Error fetching or displaying documents:", error);
+        try {
+            const response = await fetch('/api/documents');
+            if (!response.ok) {
+                // FIX 2: Corrected template literal syntax from status ${response.status}
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        });
-    </script>
+            // FIX 3: Consistent casing for 'allDocuments' (it was 'alldocuments' in initial display call)
+            allDocuments = await response.json(); 
+
+            // Initial display of all documents after fetching
+            // FIX 3: Consistent casing for 'allDocuments'
+            displayDocuments(allDocuments);
+
+            // Add event listener for search input
+            // FIX 4: Added a missing closing parenthesis for the addEventListener's arrow function
+            searchInput.addEventListener('keyup', () => { 
+                const searchTerm = searchInput.value.toLowerCase(); 
+                const filteredDocuments = allDocuments.filter(doc => {
+                    // FIX 5: Inconsistent field name 'Help Desk tech' vs 'Help Desk Tech'
+                    // FIX 6: Missing quotes around 'Help Desk tech' when accessing doc property
+                    const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : ''; // Corrected from doc[Help Desk tech"]
+
+                    // FIX 7: Consistent field name 'Troubleshooting Steps ' vs 'Troubleshooting steps ' (if trailing space is in DB)
+                    // Ensure this EXACTLY matches your MongoDB field name, including any trailing spaces or capitalization
+                    const steps = doc["Troubleshooting steps "] ? doc["Troubleshooting steps "].toLowerCase() : ''; 
+
+                    return tech.includes(searchTerm) || steps.includes(searchTerm);
+                });
+                displayDocuments(filteredDocuments);
+            }); // This closes the keyup event listener's callback function
+
+        } catch (error) {
+            // Display a user-friendly error message on the page
+            tableBody.innerHTML = '<tr><td colspan="3">Error loading data. Please check server logs or network.</td></tr>';
+            // Log the full error to the browser's console for debugging
+            console.error("Error fetching or displaying documents:", error);
+        }
+    }); // This closes the DOMContentLoaded event listener's callback function
+
+
+    // Function to display documents (reusable for initial load and filtering)
+    function displayDocuments(documentsToDisplay) { 
+        const tableBody = document.querySelector('#data-table tbody'); // Select the tbody element
+
+        // FIX 8: 'documents' variable in this function refers to 'documentsToDisplay' parameter.
+        // It should be 'documentsToDisplay.length' here, not 'documents.length'.
+        if (documentsToDisplay.length === 0) { 
+            tableBody.innerHTML = '<tr><td colspan="3">No matching documents found.</td></tr>';
+        } else {
+            tableBody.innerHTML = ''; // Clear existing content
+
+            documentsToDisplay.forEach((doc, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td> 
+                    <td>${doc["Help Desk Tech"]}</td> 
+                    <td>${doc["Troubleshooting steps "]}</td> 
+                `;
+                tableBody.appendChild(row); 
+            });
+        }
+    } // This closes the displayDocuments function
+</script>
+
+
 </body>
 </html>
 
