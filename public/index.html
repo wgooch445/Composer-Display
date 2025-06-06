@@ -33,34 +33,24 @@ initial-scale=1.0">
 
     document.addEventListener('DOMContentLoaded', async () => {
         const tableBody = document.querySelector('#data-table tbody');
-        // FIX 1: Missing opening quote for 'searchInput' string literal in getElementById
         const searchInput = document.getElementById('searchInput'); // Corrected from getElementById(searchInput')
 
         try {
             const response = await fetch('/api/documents');
             if (!response.ok) {
-                // FIX 2: Corrected template literal syntax from status ${response.status}
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            // FIX 3: Consistent casing for 'allDocuments' (it was 'alldocuments' in initial display call)
             allDocuments = await response.json(); 
 
             // Initial display of all documents after fetching
-            // FIX 3: Consistent casing for 'allDocuments'
             displayDocuments(allDocuments);
 
             // Add event listener for search input
-            // FIX 4: Added a missing closing parenthesis for the addEventListener's arrow function
             searchInput.addEventListener('keyup', () => { 
                 const searchTerm = searchInput.value.toLowerCase(); 
                 const filteredDocuments = allDocuments.filter(doc => {
-                    // FIX 5: Inconsistent field name 'Help Desk tech' vs 'Help Desk Tech'
-                    // FIX 6: Missing quotes around 'Help Desk tech' when accessing doc property
                     const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : ''; // Corrected from doc[Help Desk tech"]
-
-                    // FIX 7: Consistent field name 'Troubleshooting Steps ' vs 'Troubleshooting steps ' (if trailing space is in DB)
-                    // Ensure this EXACTLY matches your MongoDB field name, including any trailing spaces or capitalization
-                    const steps = doc["Troubleshooting steps "] ? doc["Troubleshooting steps "].toLowerCase() : ''; 
+                    const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
 
                     return tech.includes(searchTerm) || steps.includes(searchTerm);
                 });
@@ -93,7 +83,7 @@ initial-scale=1.0">
                 row.innerHTML = `
                     <td>${index + 1}</td> 
                     <td>${doc["Help Desk Tech"]}</td> 
-                    <td>${doc["Troubleshooting steps "]}</td> 
+                    <td>${doc["Troubleshooting Steps "]}</td> 
                 `;
                 tableBody.appendChild(row); 
             });
