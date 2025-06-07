@@ -36,7 +36,13 @@ initial-scale=1.0">
 
     document.addEventListener('DOMContentLoaded', async () => {
         const tableBody = document.querySelector('#data-table tbody');
-        const searchInput = document.getElementById('searchInput'); // Corrected from getElementById(searchInput')
+        const searchInput = document.getElementById('searchInput');
+                // Modal elemnts
+        const documentModal =
+            document.getElementById('documentModal');
+        const closeButton =
+            document.querySelector('.close-button');
+        const modalDetailsContent =document.getElementById('modal-details-content');
 
         try {
             const response = await fetch('/api/documents');
@@ -62,9 +68,19 @@ initial-scale=1.0">
                 displayDocuments(filteredDocuments);
             }); // This closes the keyup event listener's callback function
 
+            // adding event listeners for the modals
+            closeButton.addEventListener('click', () => {
+                documentModal.style.display = 'none';
+            });
+            window.addEventListener('click', (event) => {
+                if (event.target == documentModal) {
+                    documentModal.style.display = 'none';
+                }
+            });
+
         } catch (error) {
             // Display a user-friendly error message on the page
-            tableBody.innerHTML = '<tr><td colspan="3">Error loading data. Please check server logs or network.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="5">Error loading data. Please check server logs or network.</td></tr>';
             // Log the full error to the browser's console for debugging
             console.error("Error fetching or displaying documents:", error);
         }
@@ -75,8 +91,6 @@ initial-scale=1.0">
     function displayDocuments(documentsToDisplay) { 
         const tableBody = document.querySelector('#data-table tbody'); // Select the tbody element
 
-        // FIX 8: 'documents' variable in this function refers to 'documentsToDisplay' parameter.
-        // It should be 'documentsToDisplay.length' here, not 'documents.length'.
         if (documentsToDisplay.length === 0) { 
             tableBody.innerHTML = '<tr><td colspan="3">No matching documents found.</td></tr>';
         } else {
@@ -84,21 +98,47 @@ initial-scale=1.0">
 
             documentsToDisplay.forEach((doc, index) => {
                 const row = document.createElement('tr');
+
+                // adding a data-id attribute for mongodb documents
+                row.dataset.documentId = doc._id;
                 
                 row.innerHTML = `
                     <td>${index + 1}</td> 
                     <td>${doc["Help Desk Tech"]}</td> 
                     <td>${doc["Timestamp"]}</td>
                     <td>${doc["Affected Device"]}</td>
-                    <td>${doc["Troubleshooting Steps "]}</td>
-                    
-                    
-                    
-                `;
-                tableBody.appendChild(row); 
-            });
+                    <td>${doc["Troubleshooting Steps "]}</td>               
+                    `;
+                tableBody.appendChild(row);
+                    // adding click listener to each row
+                    row.addEventListener('click', () => {
+                    openDocumentDetails(doc);
+                    });
+                    });
+                    }
+                    }
+
+            // function to open the modal and display doc details
+            function openDocumentDetails(doc) {
+            const doumentModal = 
+            document.getElementId(documentModal');
+            const modalDetailsContent = document.GetElementById('modal-details-content');
+            modalDetailsContent.innerHTML = `
+                    <h3>Details for Document ID: $ {doc._id}</h3>
+                                       <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"]}</p>
+                                       <p><strong>Troubleshooting Steps:</strong> ${doc["Troubleshooting Steps "]}</p>
+                                        <p><strong>Timestamp:</strong> ${doc["Timestamp"]}</p>
+                                        <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"]}</p>
+                                        <p><strong>Store Number:</strong> ${doc["Store Number"]}</p>
+                                        <p><strong>Spoke With:</strong> ${doc["Spoke With"]}</p>
+                                        <p><strong>Affected Device:</strong> ${doc["Affected Device"]}</p>
+                                        <p><strong>What is the Request Type?:</strong> ${doc["What is the Request Type?"]}</p>
+                                        <p><strong>Verified Cause and Resolution:</strong> ${doc["Verified Cause and Resolution"]}</p>
+                <hr>
+                <h4>Raw Document Data:</h4>
+                <pre>${JSON.stringify(doc, null, 2)}</pre> `;
+                documentModal.style.display = 'flex'; //show the modal
         }
-    } // This closes the displayDocuments function
 </script>
 <div id="documentModal" class="modal">
     <div class="modal-content">
