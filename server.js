@@ -10,6 +10,12 @@ const app = express();
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
+// adding request type route
+
+app.get('/request', (req, res) => {
+	res.sendFile(__dirname + '/public/request.html');
+});
+
 // adding devices route
 app.get('/devices', (req, res) => {
 	res.sendFile(__dirname + '/public/devices.html');
