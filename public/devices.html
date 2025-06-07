@@ -55,7 +55,7 @@
                 }
                 allDocuments = await response.json(); 
 
-                displayDocumentsGroupedByTech(allDocuments); // Initial display of all documents
+                displayDocumentsGroupedByDevice(allDocuments); // Initial display of all documents
 
                 // Add event listener for search input
                 searchInput.addEventListener('keyup', () => { 
@@ -82,7 +82,7 @@
                                requestType.includes(searchTerm) ||
                                causeResolution.includes(searchTerm);
                     });
-                    displayDocumentsGroupedByTech(filteredDocuments); // Calls the new display function
+                    displayDocumentsGroupedByDevice(filteredDocuments); // Calls the new display function
                 });
 
                 // Add event listeners for modal (close when clicking outside or 'x')
