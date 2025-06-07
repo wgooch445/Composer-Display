@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troubleshooting Notes</title>
+    <title>Composer Data</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Troubleshooting notes</h1>
+    <h1>Composer Data</h1>
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search by keyword">
     </div>
@@ -15,7 +15,7 @@
         <table id="data-table">
             <thead>
                 <tr>
-                    <th>Document #</th>
+                    <th>Ticket #</th>
                     <th>HelpDesk Tech</th>
                     <th>Timestamp</th>
                     <th>Affected Device</th>
@@ -32,12 +32,12 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const tableBody = document.querySelector('#data-table tbody');
-            const searchInput = document.getElementById('searchInput'); // Corrected getElementById and quotes
+            const searchInput = document.getElementById('searchInput');
 
             // Modal elements
-            const documentModal = document.getElementById('documentModal'); // Corrected getElementById
+            const documentModal = document.getElementById('documentModal');
             const closeButton = document.querySelector('.close-button');
-            const modalDetailsContent = document.getElementById('modal-details-content'); // Corrected getElementById
+            const modalDetailsContent = document.getElementById('modal-details-content');
 
 
             try {
@@ -54,13 +54,13 @@
                     const searchTerm = searchInput.value.toLowerCase(); 
                     const filteredDocuments = allDocuments.filter(doc => {
                         const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
-                        const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; // Consistent field name
+                        const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : '';
+                        const ticket =doc["Astea Ticket Number"] ? doc["Astea Ticket Number"].toLowerCase() : ''; 
+                        const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : ''; 
+                        const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : ''; 
 
-                        const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : ''; // Corrected field name
-                        const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : ''; // Corrected access to doc["Affected Device"]
 
-
-                        return tech.includes(searchTerm) || steps.includes(searchTerm) || time.includes(searchTerm) || device.includes(searchTerm);
+                        return tech.includes(searchTerm) || steps.includes(searchTerm) || time.includes(searchTerm) || device.includes(searchTerm) || ticket.includes(searchTerm);
                     });
                     displayDocuments(filteredDocuments);
                 });
@@ -78,19 +78,18 @@
 
 
             } catch (error) {
-                // Adjust colspan for 5 columns: Document #, HelpDesk Tech, Timestamp, Affected Device, Troubleshooting Steps
+               
                 tableBody.innerHTML = '<tr><td colspan="5">Error loading data. Please check server logs or network.</td></tr>'; 
                 console.error("Error fetching or displaying documents:", error);
             }
-        }); // Correctly closes the DOMContentLoaded event listener's callback function
+        }); // closes the DOMContentLoaded event listener's callback function
 
 
 
-        // Function to display documents (reusable for initial load and filtering)
+        // Function to display documents
         function displayDocuments(documentsToDisplay) { 
             const tableBody = document.querySelector('#data-table tbody'); 
 
-            // Adjust colspan for 5 columns
             if (documentsToDisplay.length === 0) { 
                 tableBody.innerHTML = '<tr><td colspan="5">No matching documents found.</td></tr>';
             } else {
@@ -102,7 +101,7 @@
                     row.dataset.documentId = doc._id; // adding a data-id attribute for mongodb documents
                     
                     row.innerHTML = `
-                        <td>${index + 1}</td> 
+                        <td>${doc["Astea Ticket Number"]}</td> 
                         <td>${doc["Help Desk Tech"]}</td> 
                         <td>${doc["Timestamp"]}</td>
                         <td>${doc["Affected Device"]}</td>
@@ -120,8 +119,8 @@
 
         // Function to open the modal and display doc details
         function openDocumentDetails(doc) {
-            const documentModal = document.getElementById('documentModal'); // Corrected getElementById
-            const modalDetailsContent = document.getElementById('modal-details-content'); // Corrected getElementById
+            const documentModal = document.getElementById('documentModal'); 
+            const modalDetailsContent = document.getElementById('modal-details-content'); 
 
             modalDetailsContent.innerHTML = `
                 <h3>Details for Document ID: ${doc._id}</h3> <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"]}</p>
