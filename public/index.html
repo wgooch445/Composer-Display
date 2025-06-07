@@ -20,7 +20,7 @@
         let allDocuments = []; // This will store the full list of documents
 
         document.addEventListener('DOMContentLoaded', async () => {
-            const accordionContainer = document.getElementById('accordion-container'); // Get the new container
+            const accordionContainer = document.getElementById('accordion-container'); // Get the accordion
             const searchInput = document.getElementById('searchInput');
 
             // Get modal elements
@@ -45,8 +45,6 @@
                         const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
                         const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : '';
                         const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : '';
-
-                        // Include all your other fields in the search filter here:
                         const asteaTicket = doc["Astea Ticket Number"] ? doc["Astea Ticket Number"].toLowerCase() : '';
                         const storeNumber = doc["Store Number"] ? doc["Store Number"].toLowerCase() : '';
                         const spokeWith = doc["Spoke With"] ? doc["Spoke With"].toLowerCase() : '';
@@ -86,7 +84,7 @@
         // Function to display documents grouped by Help Desk Tech
         function displayDocumentsGroupedByTech(documentsToDisplay) {
             const accordionContainer = document.getElementById('accordion-container');
-            accordionContainer.innerHTML = ''; // Clear previous content
+            accordionContainer.innerHTML = ''; 
 
             if (documentsToDisplay.length === 0) {
                 accordionContainer.innerHTML = '<p>No matching troubleshooting notes found.</p>';
@@ -109,11 +107,11 @@
             sortedTechNames.forEach(techName => {
                 const techDocuments = groupedByTech[techName];
                 
-                // Create the accordion item (wrapper for header and content)
+                // Creatse the accordion item (wrapper for header and content)
                 const accordionItem = document.createElement('div');
                 accordionItem.classList.add('accordion-item');
 
-                // Create the header (clickable part)
+                // Creates the header (clickable part)
                 const accordionHeader = document.createElement('div');
                 accordionHeader.classList.add('accordion-header');
                 accordionHeader.innerHTML = `
@@ -122,7 +120,7 @@
                 `;
                 accordionItem.appendChild(accordionHeader);
 
-                // Create the content area (where documents for this tech will be listed)
+                // Creates the content area (where documents for this tech will be listed)
                 const accordionContent = document.createElement('div');
                 accordionContent.classList.add('accordion-content');
 
@@ -132,10 +130,11 @@
                     docListItem.dataset.documentId = doc._id; // Store ID for modal
 
                     // Display summary info for each document within the accordion
-                    // Customize these fields to show relevant summary info
+                    
                     docListItem.innerHTML = `
+                        <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p>
                         <p><strong>Affected Device:</strong> ${doc["Affected Device"] || 'N/A'}</p>
-                        <p><strong>Timestamp:</strong> ${doc["Timestamp"] || 'N/A'}</p>
+                        
                         <p><strong>Troubleshooting Steps (Summary):</strong> ${doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].substring(0, 100) + '...' : 'N/A'}</p>
                         `;
                     accordionContent.appendChild(docListItem);
@@ -167,7 +166,7 @@
             const documentModal = document.getElementById('documentModal');
             const modalDetailsContent = document.getElementById('modal-details-content');
 
-            // Customize this to show all fields from your document
+            // Details for each doc in modal
             modalDetailsContent.innerHTML = `
                 <h3>Details for Document ID: ${doc._id}</h3>
                 <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"] || 'N/A'}</p>
