@@ -255,6 +255,65 @@ td:nth-child(4) {
 .document-list-item strong {
     color: #3498db; /* Blue for labels */
 }
-
+/* Arranging sidebar and content side by side*/
+#main-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+#sidebar {
+    width: 250px;
+    min-width: 200px;
+    background-color: #562776;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #f7f2fa;
+}
+.sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-links li {
+    margin-bottom: 10px;
+}
+.sidebar-links a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+}
+.sidebar-links a:hover {
+    background-color: #2c3e50;
+}
+/* content wrapper */
+.content-wrapper {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
 
