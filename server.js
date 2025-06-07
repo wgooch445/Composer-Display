@@ -10,6 +10,11 @@ const app = express();
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
 
+// adding devices route
+app.get('/devices', (req, res) => {
+	res.sendFile(_dirname + '/public/devices.html';
+});
+
 // 4. Configure Static File Serving (for local development primarily)
 app.use(express.static('public'));
 
