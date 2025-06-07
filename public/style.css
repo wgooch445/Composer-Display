@@ -183,8 +183,80 @@ td:nth-child(4) {
 #modal-details-content strong {
     color: #3498db;
 }
+/* Accordion Container */
+.accordion-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-/* FIX: Missing a final closing brace '}' at the very end of the file. */
-/* This is likely why nothing after a certain point was being parsed. */
-/* Add this to the very end of your file: */
+/* Accordion Item (Tech Header) */
+.accordion-item {
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background-color: #3498db; /* Blue header */
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.accordion-header .arrow {
+    font-size: 1.5em;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .arrow {
+    transform: rotate(90deg); /* Rotate arrow when active */
+}
+
+/* Accordion Content (Document List for each Tech) */
+.accordion-content {
+    display: none; /* Hidden by default */
+    padding: 15px 20px;
+    background-color: #f8fbfd;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Individual Document Item within Accordion Content */
+.document-list-item {
+    border-bottom: 1px dashed #cccccc; /* Dashed line between docs */
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.document-list-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.document-list-item:hover {
+    background-color: #eaf6fd;
+}
+
+.document-list-item strong {
+    color: #3498db; /* Blue for labels */
+}
+
+
 
