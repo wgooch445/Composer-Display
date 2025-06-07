@@ -114,7 +114,7 @@
 
             // Group documents by request type
             const groupedByRequestType = documentsToDisplay.reduce((acc, doc) => {
-                const requestTypeName = doc["Request Type"] || 'Unassigned requestType'; // Handle cases where request type might be missing
+                const requestTypeName = doc["What is the Request Type?"] || 'Unassigned requestType'; // Handle cases where request type might be missing
                 if (!acc[requestTypeName]) {
                     acc[requestTypeName] = [];
                 }
