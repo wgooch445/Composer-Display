@@ -64,7 +64,7 @@ tr:hover {
 /* making first column smaller */
 th:nth-child(1),
 td:nth-child(1) {
-    width: 10%;
+    width: 25%;
     min-width: 60px;
     text-align: center;
 }
