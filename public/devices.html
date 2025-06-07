@@ -112,7 +112,7 @@
             }
 
             // Group documents by device
-            const groupedByTech = documentsToDisplay.reduce((acc, doc) => {
+            const groupedByDevice = documentsToDisplay.reduce((acc, doc) => {
                 const deviceName = doc["Affected Device"] || 'Unassigned Device'; // Handle cases where device might be missing
                 if (!acc[deviceName]) {
                     acc[deviceName] = [];
@@ -140,11 +140,11 @@
                 `;
                 accordionItem.appendChild(accordionHeader);
 
-                // Creates the content area (where documents for this tech will be listed)
+                // Creates the content area (where documents for this device will be listed)
                 const accordionContent = document.createElement('div');
                 accordionContent.classList.add('accordion-content');
 
-                techDocuments.forEach((doc, index) => {
+                deviceDocuments.forEach((doc, index) => {
                     const docListItem = document.createElement('div');
                     docListItem.classList.add('document-list-item');
                     docListItem.dataset.documentId = doc._id; // Store ID for modal
