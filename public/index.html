@@ -59,10 +59,10 @@
                     const filteredDocuments = allDocuments.filter(doc => {
                         const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
                         const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
-                        const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : '';
+                        const time = doc["Timestamp"] ? String(doc["Timestamp"]).toLowerCase() : '';
                         const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : '';
                         const asteaTicket = doc["Astea Ticket Number"] ? doc["Astea Ticket Number"].toLowerCase() : '';
-                        const storeNumber = doc["Store Number"] ? doc["Store Number"].toLowerCase() : '';
+                        const storeNumber = doc["Store Number"] ? String(doc["Store Number"]).toLowerCase() : '';
                         const spokeWith = doc["Spoke With"] ? doc["Spoke With"].toLowerCase() : '';
                         const requestType = doc["What is the Request Type?"] ? doc["What is the Request Type?"].toLowerCase() : '';
                         const causeResolution = doc["Verified Cause and Resolution"] ? doc["Verified Cause and Resolution"].toLowerCase() : '';
