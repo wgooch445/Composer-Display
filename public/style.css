@@ -2,13 +2,13 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 20px;
-    background-color: #f4f7f6;
+    background-color: #f5f5f5; /* ghost white */
     color: #34495e;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 95vh;
-} /* This closing brace was missing, affecting subsequent rules */
+}
 
 h1 {
     color: #2c3e50;
@@ -16,14 +16,14 @@ h1 {
     text-align: center;
     font-size: 2.5em;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-} /* This closing brace was missing, affecting subsequent rules */
+} 
 
 .table-responsive {
     width: 90%;
     max-width: 1200px;
     overflow-x: auto;
     margin-bottom: 50px;
-} /* This closing brace was missing, affecting subsequent rules */
+} 
 
 table {
     width: 100%;
@@ -34,14 +34,14 @@ table {
     border-radius: 8px;
     overflow: hidden;
     table-layout: fixed;
-} /* This closing brace was missing, affecting subsequent rules */
+} 
 
 th, td {
     border: 1px solid #e0e0e0; /* Light grey borders */
     padding: 15px;
     text-align: left;
     word-wrap: break-word;
-} /* This closing brace was missing, affecting subsequent rules */
+} 
 
 th {
     background-color: #3498db; /* A vibrant blue for headers */
@@ -50,7 +50,7 @@ th {
     text-transform: uppercase;
     /* FIX: Missing colon ':' after 'letter-spacing' */
     letter-spacing: 0.05em; 
-} /* This closing brace was missing, affecting subsequent rules */
+} 
 
 tr:nth-child(even) {
     background-color: #f8fbfd; /* Very light blue for zebra striping */
@@ -70,42 +70,40 @@ td:nth-child(1) {
 }
 
 /* styling for Help Desk Tech column */
-th:nth-child(2), /* FIX: Missing comma between th and td */
+th:nth-child(2), 
 td:nth-child(2) {
     width: 25%;
     min-width: 150px;
 }
 
 /* styling for troubleshooting steps (Column 5) */
-th:nth-child(5), /* FIX: Missing comma between th and td */
+th:nth-child(5), 
 td:nth-child(5) {
     width: 75%;
     min-width: 300px;
 }
 
 /* styling for Timestamp (Column 3) */
-th:nth-child(3), /* FIX: Missing comma between th and td */
+th:nth-child(3), 
 td:nth-child(3) {
     width: 25%;
     min-width: 150px;
 }
 
 /* styling for Affected Device (Column 4) */
-th:nth-child(4), /* FIX: Missing comma between th and td */
+th:nth-child(4),
 td:nth-child(4) {
     width: 30%;
     min-width: 200px;
 }
 
 /* Search Container Styles */
-/* FIX: Missing dot '.' before 'search container' to make it a class selector */
 .search-container { 
     margin-bottom: 20px;
     width: 90%;
-    /* FIX: Typo 'max-wdith' should be 'max-width' */
     max-width: 1200px; 
     text-align: center;
-} /* FIX: This closing brace was missing */
+} 
 
 #searchInput {
     width: 100%;
@@ -123,7 +121,7 @@ td:nth-child(4) {
 }
 
 /* Modal Styles */
-/* FIX: Missing closing brace for the previous rule block */
+
 .modal {
     display: none;
     position: fixed;
@@ -137,7 +135,7 @@ td:nth-child(4) {
     justify-content: center;
     align-items: center;
     padding-top: 50px;
-} /* This closing brace was missing for the .modal rule */
+} 
 
 .modal-content {
     background-color: #fefefe;
@@ -154,19 +152,19 @@ td:nth-child(4) {
 }
 
 @keyframes animatetop {
-    from {top: -300px; opacity: 0;} /* FIX: Missing semicolon here */
-    to {top: 0; opacity: 1;} /* FIX: Missing semicolon here */
-} /* This closing brace was missing for the @keyframes rule */
+    from {top: -300px; opacity: 0;} 
+    to {top: 0; opacity: 1;} 
+} 
 
 
-/* FIX: Typo 'close-butoon' should be 'close-button' */
-.close-button { /* Fixed typo */
+
+.close-button { 
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-} /* This closing brace was missing for the .close-button rule */
+} 
 
 .close-button:hover,
 .close-button:focus {
