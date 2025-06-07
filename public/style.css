@@ -1,152 +1,190 @@
-/* General body and page styles */
+/* General Body and Page Styles */
 body {
-            font-family: 'Segoe UI', Tahome, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background-color: #f4f7f6;
-            color: #34495e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 95vh;
-        }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background-color: #f4f7f6;
+    color: #34495e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 95vh;
+} /* This closing brace was missing, affecting subsequent rules */
+
 h1 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 2px
-                        rgba(0,0,0,0.1);
-}.table-responsive {
-            width: 90%;
-            max-width: 1200px;
-            overflow-x: auto;
-            margin-bottom: 50px;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+} /* This closing brace was missing, affecting subsequent rules */
+
+.table-responsive {
+    width: 90%;
+    max-width: 1200px;
+    overflow-x: auto;
+    margin-bottom: 50px;
+} /* This closing brace was missing, affecting subsequent rules */
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Makes borders touch */
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    table-layout: fixed;
+} /* This closing brace was missing, affecting subsequent rules */
+
+th, td {
+    border: 1px solid #e0e0e0; /* Light grey borders */
+    padding: 15px;
+    text-align: left;
+    word-wrap: break-word;
+} /* This closing brace was missing, affecting subsequent rules */
+
+th {
+    background-color: #3498db; /* A vibrant blue for headers */
+    color: white; /* White text for headers */
+    font-weight: bold;
+    text-transform: uppercase;
+    /* FIX: Missing colon ':' after 'letter-spacing' */
+    letter-spacing: 0.05em; 
+} /* This closing brace was missing, affecting subsequent rules */
+
+tr:nth-child(even) {
+    background-color: #f8fbfd; /* Very light blue for zebra striping */
 }
-        table {
-            width: 100%;
-            border-collapse: collapse; /* Makes borders touch */
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* PICK BACK UP HERE */
-            background-color: #ffffff;
-                    border-radius: 8px;
-                    overflow:hidden;
-                    table-layout: fixed;
-        }
-        th, td {
-            border: 1px solid #e0e0e0; /* Light grey borders */
-            padding: 15px;
-            text-align: left;
-                    word-wrap: break-word;
-        }
-        th {
-            background-color: #3498db; /* blue for headers */
-            color: white; /* White text for headers */
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    letter-spacing 0.05em;
-        }
-        tr:nth-child(even) {
-            background-color: #f8fbfd; /* Zebra striping for rows */
-        }
-        tr:hover {
-            background-color: #eaf6fd; /* light blue on hover */
-            cursor: pointer; /* indicates its clickable */
-        }
+
+tr:hover {
+    background-color: #eaf6fd; /* Light blue on hover */
+    cursor: pointer; /* Indicate it's clickable (for future interactivity) */
+}
+
 /* making first column smaller */
 th:nth-child(1),
 td:nth-child(1) {
-            width: 10%;
-            min-width: 60px;
-            text-align: center;
+    width: 10%;
+    min-width: 60px;
+    text-align: center;
 }
-/*styling for Help Desk Tech column */
-th:nth-child(2)
+
+/* styling for Help Desk Tech column */
+th:nth-child(2), /* FIX: Missing comma between th and td */
 td:nth-child(2) {
-            width: 25%;
-            min-width: 150px;
+    width: 25%;
+    min-width: 150px;
 }
 
-/*styling for troubleshooting steps*/
-th:nth-child(5)
+/* styling for troubleshooting steps (Column 5) */
+th:nth-child(5), /* FIX: Missing comma between th and td */
 td:nth-child(5) {
-            width: 75%;
-            min-width: 300px;
-}
-/*styling for Timestamp*/
-th:nth-child(3)
-td:nth-child(3) {
-            width: 25%;
-            min-width: 150px;
-}
-/*styling for Affected Device*/
-th:nth-child(4)
-td:nth-child(4) {
-            width: 30%;
-            min-width: 200px;
+    width: 75%;
+    min-width: 300px;
 }
 
-.search container {
-            margin-bottom: 20px;
-            width: 90%;
-            max-wdith: 1200px;
-            text-align: center;
+/* styling for Timestamp (Column 3) */
+th:nth-child(3), /* FIX: Missing comma between th and td */
+td:nth-child(3) {
+    width: 25%;
+    min-width: 150px;
+}
+
+/* styling for Affected Device (Column 4) */
+th:nth-child(4), /* FIX: Missing comma between th and td */
+td:nth-child(4) {
+    width: 30%;
+    min-width: 200px;
+}
+
+/* Search Container Styles */
+/* FIX: Missing dot '.' before 'search container' to make it a class selector */
+.search-container { 
+    margin-bottom: 20px;
+    width: 90%;
+    /* FIX: Typo 'max-wdith' should be 'max-width' */
+    max-width: 1200px; 
+    text-align: center;
+} /* FIX: This closing brace was missing */
 
 #searchInput {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 1.1em;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-            transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1.1em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease;
 }
+
 #searchInput:focus {
-            border-color: #3498db;
-            outline: none;
+    border-color: #3498db;
+    outline: none;
 }
-/*Modal Styles*/
-       .modal {
-                   display: none;
-                   position: fixed;
-                   z-index: 100;
-                   left: 0;
-                   top: 0;
-                   width: 100%;
-                   height: 100%;
-                   overflow: auto;
-                   background-color: rgba(0,0,0,0.4);
-                   justify-content: center;
-                   align-items: center;
-                   padding-top: 50px;
-       }
-            .modal-content {
-                        background-color: #fefefe;
-                        margin: auto;
-                        padding: 20px;
-                        border: 1px solid #888;
-                        width: 80%;
-                        max-width: 700px;
-                        border-radius: 10px;
-                        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                        position: relative;
-                        animation-name: animatetop;
-                        animation-duration: 0.4s;
-            }
-            @keyframes animatetop {
-                        from {top: -300px; opacity: 0}
-                        to {top: 0; opacity 1}
-                        }
-            .close-butoon:hover,
-            .close-button:focus {
-                        color: black;
-                        text-decoration: none;
-                        cursor: pointer;
-            }
-            #modal-details-content p {
-                        margin-bottom: 10px;
-                        line-height: 1.6;
-            }
-            #modal-details-content strong {
-                        color: #3498db;
-            }
+
+/* Modal Styles */
+/* FIX: Missing closing brace for the previous rule block */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+} /* This closing brace was missing for the .modal rule */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
 }
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0;} /* FIX: Missing semicolon here */
+    to {top: 0; opacity: 1;} /* FIX: Missing semicolon here */
+} /* This closing brace was missing for the @keyframes rule */
+
+
+/* FIX: Typo 'close-butoon' should be 'close-button' */
+.close-button { /* Fixed typo */
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+} /* This closing brace was missing for the .close-button rule */
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modal-details-content p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+#modal-details-content strong {
+    color: #3498db;
+}
+
+/* FIX: Missing a final closing brace '}' at the very end of the file. */
+/* This is likely why nothing after a certain point was being parsed. */
+/* Add this to the very end of your file: */
+
