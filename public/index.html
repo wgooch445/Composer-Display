@@ -2,155 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-content="width=device-width,
-initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Troubleshooting Notes</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Troubleshooting notes</h1>
     <div class="search-container">
-    <input type="text" id="searchInput"
-        placeholder="Search by keyword">
+        <input type="text" id="searchInput" placeholder="Search by keyword">
     </div>
-   <div class="table-responsive">
-       <table id="data-table">
-        <thead>
-            <tr>
-                <th>Document #</th>
-                <th>HelpDesk Tech</th> 
-                <th>Timestamp</th>
-                <th>Affected Device</th>
-                <th>Troubleshooting Steps</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            </tbody>
-       </table>
-   </div>
+    <div class="table-responsive">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Document #</th>
+                    <th>HelpDesk Tech</th>
+                    <th>Timestamp</th>
+                    <th>Affected Device</th>
+                    <th>Troubleshooting Steps</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
 
     <script>
-    let allDocuments = []; // This will store the full list of documents
+        let allDocuments = []; // This will store the full list of documents
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const tableBody = document.querySelector('#data-table tbody');
-        const searchInput = document.getElementById('searchInput');
-                // Modal elemnts
-        const documentModal =
-            document.getElementById('documentModal');
-        const closeButton =
-            document.querySelector('.close-button');
-        const modalDetailsContent =document.getElementById('modal-details-content');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tableBody = document.querySelector('#data-table tbody');
+            const searchInput = document.getElementById('searchInput'); // Corrected getElementById and quotes
 
-        try {
-            const response = await fetch('/api/documents');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            allDocuments = await response.json(); 
+            // Modal elements
+            const documentModal = document.getElementById('documentModal'); // Corrected getElementById
+            const closeButton = document.querySelector('.close-button');
+            const modalDetailsContent = document.getElementById('modal-details-content'); // Corrected getElementById
 
-            // Initial display of all documents after fetching
-            displayDocuments(allDocuments);
 
-            // Add event listener for search input
-            searchInput.addEventListener('keyup', () => { 
-                const searchTerm = searchInput.value.toLowerCase(); 
-                const filteredDocuments = allDocuments.filter(doc => {
-                    const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
-                    const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
-                    const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : '';
-                    const device =["Affected Device"] ? doc["Affected Device"].toLowerCase() : '';
-
-                    return tech.includes(searchTerm) || steps.includes(searchTerm) || time.includes(searchTerm) || device.includes(searchTerm);
-                });
-                displayDocuments(filteredDocuments);
-            }); // This closes the keyup event listener's callback function
-
-            // adding event listeners for the modals
-            closeButton.addEventListener('click', () => {
-                documentModal.style.display = 'none';
-            });
-            window.addEventListener('click', (event) => {
-                if (event.target == documentModal) {
-                    documentModal.style.display = 'none';
+            try {
+                const response = await fetch('/api/documents');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-            });
+                allDocuments = await response.json(); 
 
-        } catch (error) {
-            // Display a user-friendly error message on the page
-            tableBody.innerHTML = '<tr><td colspan="5">Error loading data. Please check server logs or network.</td></tr>';
-            // Log the full error to the browser's console for debugging
-            console.error("Error fetching or displaying documents:", error);
-        }
-    }); // This closes the DOMContentLoaded event listener's callback function
+                displayDocuments(allDocuments); // Initial display of all documents after fetching
+
+                // Add event listener for search input
+                searchInput.addEventListener('keyup', () => { 
+                    const searchTerm = searchInput.value.toLowerCase(); 
+                    const filteredDocuments = allDocuments.filter(doc => {
+                        const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
+                        const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; // Consistent field name
+
+                        const time = doc["Timestamp"] ? doc["Timestamp"].toLowerCase() : ''; // Corrected field name
+                        const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : ''; // Corrected access to doc["Affected Device"]
 
 
-    // Function to display documents (reusable for initial load and filtering)
-    function displayDocuments(documentsToDisplay) { 
-        const tableBody = document.querySelector('#data-table tbody'); // Select the tbody element
+                        return tech.includes(searchTerm) || steps.includes(searchTerm) || time.includes(searchTerm) || device.includes(searchTerm);
+                    });
+                    displayDocuments(filteredDocuments);
+                });
 
-        if (documentsToDisplay.length === 0) { 
-            tableBody.innerHTML = '<tr><td colspan="3">No matching documents found.</td></tr>';
-        } else {
-            tableBody.innerHTML = ''; // Clear existing content
 
-            documentsToDisplay.forEach((doc, index) => {
-                const row = document.createElement('tr');
+                // Add event listeners for modal (close when clicking outside or 'x')
+                closeButton.addEventListener('click', () => {
+                    documentModal.style.display = 'none';
+                });
+                window.addEventListener('click', (event) => {
+                    if (event.target == documentModal) {
+                        documentModal.style.display = 'none';
+                    }
+                });
 
-                // adding a data-id attribute for mongodb documents
-                row.dataset.documentId = doc._id;
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td> 
-                    <td>${doc["Help Desk Tech"]}</td> 
-                    <td>${doc["Timestamp"]}</td>
-                    <td>${doc["Affected Device"]}</td>
-                    <td>${doc["Troubleshooting Steps "]}</td>               
-                    `;
-                tableBody.appendChild(row);
+
+            } catch (error) {
+                // Adjust colspan for 5 columns: Document #, HelpDesk Tech, Timestamp, Affected Device, Troubleshooting Steps
+                tableBody.innerHTML = '<tr><td colspan="5">Error loading data. Please check server logs or network.</td></tr>'; 
+                console.error("Error fetching or displaying documents:", error);
+            }
+        }); // Correctly closes the DOMContentLoaded event listener's callback function
+
+
+
+        // Function to display documents (reusable for initial load and filtering)
+        function displayDocuments(documentsToDisplay) { 
+            const tableBody = document.querySelector('#data-table tbody'); 
+
+            // Adjust colspan for 5 columns
+            if (documentsToDisplay.length === 0) { 
+                tableBody.innerHTML = '<tr><td colspan="5">No matching documents found.</td></tr>';
+            } else {
+                tableBody.innerHTML = ''; // Clear existing content
+
+                documentsToDisplay.forEach((doc, index) => {
+                    const row = document.createElement('tr');
+                    
+                    row.dataset.documentId = doc._id; // adding a data-id attribute for mongodb documents
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td> 
+                        <td>${doc["Help Desk Tech"]}</td> 
+                        <td>${doc["Timestamp"]}</td>
+                        <td>${doc["Affected Device"]}</td>
+                        <td>${doc["Troubleshooting Steps "]}</td> `;
+                    tableBody.appendChild(row);
+
                     // adding click listener to each row
                     row.addEventListener('click', () => {
-                    openDocumentDetails(doc);
+                        openDocumentDetails(doc);
                     });
-                    });
-                    }
-                    }
+                });
+            }
+        }
 
-            // function to open the modal and display doc details
-            function openDocumentDetails(doc) {
-            const doumentModal = 
-            document.getElementById('documentModal');
-            const modalDetailsContent = document.GetElementById('modal-details-content');
+
+        // Function to open the modal and display doc details
+        function openDocumentDetails(doc) {
+            const documentModal = document.getElementById('documentModal'); // Corrected getElementById
+            const modalDetailsContent = document.getElementById('modal-details-content'); // Corrected getElementById
+
             modalDetailsContent.innerHTML = `
-                    <h3>Details for Document ID: $ {doc._id}</h3>
-                                       <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"]}</p>
-                                       <p><strong>Troubleshooting Steps:</strong> ${doc["Troubleshooting Steps "]}</p>
-                                        <p><strong>Timestamp:</strong> ${doc["Timestamp"]}</p>
-                                        <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"]}</p>
-                                        <p><strong>Store Number:</strong> ${doc["Store Number"]}</p>
-                                        <p><strong>Spoke With:</strong> ${doc["Spoke With"]}</p>
-                                        <p><strong>Affected Device:</strong> ${doc["Affected Device"]}</p>
-                                        <p><strong>What is the Request Type?:</strong> ${doc["What is the Request Type?"]}</p>
-                                        <p><strong>Verified Cause and Resolution:</strong> ${doc["Verified Cause and Resolution"]}</p>
+                <h3>Details for Document ID: ${doc._id}</h3> <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"]}</p>
+                <p><strong>Troubleshooting Steps:</strong> ${doc["Troubleshooting Steps "]}</p> <p><strong>Timestamp:</strong> ${doc["Timestamp"]}</p>
+                <p><strong>Affected Device:</strong> ${doc["Affected Device"]}</p>
+                <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p> <p><strong>Store Number:</strong> ${doc["Store Number"] || 'N/A'}</p>
+                <p><strong>Spoke With:</strong> ${doc["Spoke With"] || 'N/A'}</p>
+                <p><strong>What is the Request Type?:</strong> ${doc["What is the Request Type?"] || 'N/A'}</p>
+                <p><strong>Verified Cause and Resolution:</strong> ${doc["Verified Cause and Resolution"] || 'N/A'}</p>
                 <hr>
                 <h4>Raw Document Data:</h4>
-                <pre>${JSON.stringify(doc, null, 2)}</pre> `;
-                documentModal.style.display = 'flex'; //show the modal
+                <pre>${JSON.stringify(doc, null, 2)}</pre>
+            `;
+            documentModal.style.display = 'flex'; // show the modal
         }
-</script>
-<div id="documentModal" class="modal">
-    <div class="modal-content">
-        <span
-            class="close-button">&times;</span>
-        <h2>document Details</h2>
-        <div id="modal-details-content">
-            <p>Loading Details...</p>
+    </script>
+
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Document Details</h2>
+            <div id="modal-details-content">
+                <p>Loading Details...</p>
+            </div>
         </div>
     </div>
-</div>
-    
 </body>
 </html>
 
