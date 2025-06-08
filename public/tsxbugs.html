@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troubleshooting Notes</title>
+    <title>TSX Bugs</title>
     <link rel="stylesheet" href="style.css"> </head>
 <body>
     <div id="main-container">
@@ -15,6 +15,7 @@
                 <li><a href="/" target="_self">Notes by Tech</a></li> 
                 <li><a href="/devices" target="_self">Notes by Device</a></li>
                 <li><a href="/request" target="_self">Notes by Request Type</a></li>
+                <li><a href="/tsxbugs" target="_self">TSX Bugs</a></li>
                 
                 <div class="sidebar-separator"></div>
                 <li><a href="https://sites.google.com/cesservice.com/rochelpdesk/home" target="_blank">Roc Site</a></li>
@@ -25,7 +26,7 @@
             </ul>
         </nav>
         <div class="content-wrapper">
-    <h1>Composer Data</h1>
+    <h1>TSX Bugs</h1>
 
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search by keyword">
@@ -50,7 +51,7 @@
             const modalDetailsContent = document.getElementById('modal-details-content');
 
             try {
-                const response = await fetch('/api/documents');
+                const response = await fetch('/api/bugs');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
