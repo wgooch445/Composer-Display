@@ -13,7 +13,7 @@ body {
 h1 {
     color: #2c3e50;
     margin-bottom: 25px;
-    text-align: center;
+    text-align: left;
     font-size: 2.5em;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 } 
@@ -48,7 +48,6 @@ th {
     color: white; /* White text for headers */
     font-weight: bold;
     text-transform: uppercase;
-    /* FIX: Missing colon ':' after 'letter-spacing' */
     letter-spacing: 0.05em; 
 } 
 
@@ -58,7 +57,7 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #eaf6fd; /* Light blue on hover */
-    cursor: pointer; /* Indicate it's clickable (for future interactivity) */
+    cursor: pointer; /* Indicate it's clickable */
 }
 
 /* making first column smaller */
