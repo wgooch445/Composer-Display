@@ -33,7 +33,7 @@
     </div>
 
     <div id="accordion-container" class="accordion-container">
-        <p>Loading troubleshooting notes...</p>
+        <p>Mind your own business...</p>
     </div>
         </div>
     </div>
@@ -51,15 +51,15 @@
             const modalDetailsContent = document.getElementById('modal-details-content');
 
             try {
-                const response = await fetch('/api/bugs');
+                const response = await fetch('/api/tsxbugs');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 allDocuments = await response.json(); 
 
-                displayDocumentsGroupedByTech(allDocuments); // Initial display of all documents
+                displayDocumentsGroupedByPriority(allDocuments); // Initial display of all documents
 
-                // Add event listener for search input
+                // Add event listener for search input CHANGE THESE SEARCH TERMS
                 searchInput.addEventListener('keyup', () => { 
                     const searchTerm = searchInput.value.toLowerCase(); 
                     const filteredDocuments = allDocuments.filter(doc => {
@@ -84,7 +84,7 @@
                                requestType.includes(searchTerm) ||
                                causeResolution.includes(searchTerm);
                     });
-                    displayDocumentsGroupedByTech(filteredDocuments); // Call the new display function
+                    displayDocumentsGroupedByPriority(filteredDocuments); // Call the new display function
                 });
 
                 // Add event listeners for modal (close when clicking outside or 'x')
@@ -103,31 +103,31 @@
             }
         });
 
-        // Function to display documents grouped by Help Desk Tech
-        function displayDocumentsGroupedByTech(documentsToDisplay) {
+        // Function to display documents grouped by Priority
+        function displayDocumentsGroupedByPriority(documentsToDisplay) {
             const accordionContainer = document.getElementById('accordion-container');
             accordionContainer.innerHTML = ''; 
 
             if (documentsToDisplay.length === 0) {
-                accordionContainer.innerHTML = '<p>No matching troubleshooting notes found.</p>';
+                accordionContainer.innerHTML = '<p>No matching bugs found.</p>';
                 return;
             }
 
-            // Group documents by Help Desk Tech
-            const groupedByTech = documentsToDisplay.reduce((acc, doc) => {
-                const techName = doc["Help Desk Tech"] || 'Unassigned Tech'; // Handle cases where tech might be missing
-                if (!acc[techName]) {
-                    acc[techName] = [];
+            // Group documents by Priority
+            const groupedByPriority = documentsToDisplay.reduce((acc, doc) => {
+                const priority = doc["Priority"] || 'Unassigned Priority'; // Handle cases where tech might be missing
+                if (!acc[priority]) {
+                    acc[priority] = [];
                 }
-                acc[techName].push(doc);
+                acc[priority].push(doc);
                 return acc;
             }, {});
 
             // Sort tech names alphabetically for consistent display
-            const sortedTechNames = Object.keys(groupedByTech).sort();
+            const sortedPriority = Object.keys(groupedByPriority).sort();
 
-            sortedTechNames.forEach(techName => {
-                const techDocuments = groupedByTech[techName];
+            sortedTechNames.forEach(priority => {
+                const techDocuments = groupedByPriority[priority];
                 
                 // Creatse the accordion item (wrapper for header and content)
                 const accordionItem = document.createElement('div');
@@ -137,7 +137,7 @@
                 const accordionHeader = document.createElement('div');
                 accordionHeader.classList.add('accordion-header');
                 accordionHeader.innerHTML = `
-                    <span>${techName} (${techDocuments.length})</span>
+                    <span>${priority} (${priorityDocuments.length})</span> // YOU ARE HERE********
                     <span class="arrow">></span>
                 `;
                 accordionItem.appendChild(accordionHeader);
