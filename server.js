@@ -24,7 +24,7 @@ app.get('/devices', (req, res) => {
 // adding tsxbugs route
 app.get('/tsxbugs', (req, res) => {
 	res.sendFile(__dirname + '/public/tsxbugs.html');
-)};
+});
 
 app.use(express.static('public'));
 
