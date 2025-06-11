@@ -21,10 +21,29 @@ app.get('/devices', (req, res) => {
 	res.sendFile(__dirname + '/public/devices.html');
 });
 
+// adding tsxbugs route
+app.get('(/inventory', (req, res) => {
+	res.sendFile(__dirname + '/public/tsxbugs.html');
+});
+
 // 4. Configure Static File Serving (for local development primarily)
 app.use(express.static('public'));
 
-// 5. Define the API endpoint to fetch documents from MongoDB
+// 5. Define the API endpoints to fetch documents from MongoDB
+app.get('/api/tsxbugs', async (req, res) => {
+	try {
+		await client.connect();
+		const database = client.db("Bug_Information");
+		const collection = database.collection("TSX-P1-P2");
+		const documents = await collection.find({}).toArray();
+		res.json(documents);
+
+	} catch (error) {
+		console.error("API is broke yo:", error);
+		res.status(500).json({ message: "bug data has a bug." });
+	}
+	// No finally { await client.close(); }
+});
 app.get('/api/documents', async (req, res) => 
 	{
 		let documents; // declaring documents outside the try block
