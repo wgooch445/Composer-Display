@@ -22,14 +22,13 @@ app.get('/devices', (req, res) => {
 });
 
 // adding tsxbugs route
-app.get('(/inventory', (req, res) => {
+app.get('/tsxbugs', (req, res) => {
 	res.sendFile(__dirname + '/public/tsxbugs.html');
-});
+)};
 
-// 4. Configure Static File Serving (for local development primarily)
 app.use(express.static('public'));
 
-// 5. Define the API endpoints to fetch documents from MongoDB
+// Define the API endpoints to fetch documents from MongoDB
 app.get('/api/tsxbugs', async (req, res) => {
 	try {
 		await client.connect();
