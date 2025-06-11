@@ -33,7 +33,7 @@
     </div>
 
     <div id="accordion-container" class="accordion-container">
-        <p>Mind your own business...</p>
+        <p>Mind our dust...</p>
     </div>
         </div>
     </div>
@@ -63,26 +63,26 @@
                 searchInput.addEventListener('keyup', () => { 
                     const searchTerm = searchInput.value.toLowerCase(); 
                     const filteredDocuments = allDocuments.filter(doc => {
-                        const tech = doc["Help Desk Tech"] ? doc["Help Desk Tech"].toLowerCase() : '';
-                        const steps = doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].toLowerCase() : ''; 
-                        const time = doc["Timestamp"] ? String(doc["Timestamp"]).toLowerCase() : '';
-                        const device = doc["Affected Device"] ? doc["Affected Device"].toLowerCase() : '';
-                        const asteaTicket = doc["Astea Ticket Number"] ? doc["Astea Ticket Number"].toLowerCase() : '';
-                        const storeNumber = doc["Store Number"] ? String(doc["Store Number"]).toLowerCase() : '';
-                        const spokeWith = doc["Spoke With"] ? doc["Spoke With"].toLowerCase() : '';
-                        const requestType = doc["What is the Request Type?"] ? doc["What is the Request Type?"].toLowerCase() : '';
-                        const causeResolution = doc["Verified Cause and Resolution"] ? doc["Verified Cause and Resolution"].toLowerCase() : '';
+                        const id = doc["ID"] ? String(doc["ID"]).toLowerCase() : '';
+                        const type = doc["Work Item Type"] ? doc["Work Item Type"].toLowerCase() : ''; 
+                        const date = doc["Created Date"] ? String(doc["Created Date"]).toLowerCase() : '';
+                        const priority = doc["Priority"] ? doc["Priority"].toLowerCase() : '';
+                        const title = doc["Title"] ? doc["Title"].toLowerCase() : '';
+                        const severity= doc["Store Number"] ? String(doc["severity"]).toLowerCase() : '';
+                        const tags = doc["Tags"] ? doc["Tags"].toLowerCase() : '';
+                       // const requestType = doc["What is the Request Type?"] ? doc["What is the Request Type?"].toLowerCase() : '';
+                      //  const causeResolution = doc["Verified Cause and Resolution"] ? doc["Verified Cause and Resolution"].toLowerCase() : '';
 
 
-                        return tech.includes(searchTerm) || 
-                               steps.includes(searchTerm) || 
-                               time.includes(searchTerm) || 
-                               device.includes(searchTerm) ||
-                               asteaTicket.includes(searchTerm) ||
-                               storeNumber.includes(searchTerm) ||
-                               spokeWith.includes(searchTerm) ||
-                               requestType.includes(searchTerm) ||
-                               causeResolution.includes(searchTerm);
+                        return id.includes(searchTerm) || 
+                               type.includes(searchTerm) || 
+                               date.includes(searchTerm) || 
+                               priority.includes(searchTerm) ||
+                               title.includes(searchTerm) ||
+                               severity.includes(searchTerm) ||
+                               tags.includes(searchTerm) ||
+                              // requestType.includes(searchTerm) ||
+                              // causeResolution.includes(searchTerm);
                     });
                     displayDocumentsGroupedByPriority(filteredDocuments); // Call the new display function
                 });
@@ -115,7 +115,7 @@
 
             // Group documents by Priority
             const groupedByPriority = documentsToDisplay.reduce((acc, doc) => {
-                const priority = doc["Priority"] || 'Unassigned Priority'; // Handle cases where tech might be missing
+                const priority = doc["Priority"] || 'Unassigned Priority'; // Handle cases where prio might be missing
                 if (!acc[priority]) {
                     acc[priority] = [];
                 }
@@ -123,11 +123,11 @@
                 return acc;
             }, {});
 
-            // Sort tech names alphabetically for consistent display
+            // Sort by priority
             const sortedPriority = Object.keys(groupedByPriority).sort();
 
-            sortedTechNames.forEach(priority => {
-                const techDocuments = groupedByPriority[priority];
+            sortedPriority.forEach(priority => {
+                const priorityDocuments = groupedByPriority[priority];
                 
                 // Creatse the accordion item (wrapper for header and content)
                 const accordionItem = document.createElement('div');
@@ -137,16 +137,16 @@
                 const accordionHeader = document.createElement('div');
                 accordionHeader.classList.add('accordion-header');
                 accordionHeader.innerHTML = `
-                    <span>${priority} (${priorityDocuments.length})</span> // YOU ARE HERE********
+                    <span>${priority} (${priorityDocuments.length})</span> 
                     <span class="arrow">></span>
                 `;
                 accordionItem.appendChild(accordionHeader);
 
-                // Creates the content area (where documents for this tech will be listed)
+                // Creates the content area (where documents will be listed)
                 const accordionContent = document.createElement('div');
                 accordionContent.classList.add('accordion-content');
 
-                techDocuments.forEach((doc, index) => {
+                priorityDocuments.forEach((doc, index) => {
                     const docListItem = document.createElement('div');
                     docListItem.classList.add('document-list-item');
                     docListItem.dataset.documentId = doc._id; // Store ID for modal
@@ -154,10 +154,10 @@
                     // Display summary info for each document within the accordion
                     
                     docListItem.innerHTML = `
-                        <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p>
-                        <p><strong>Affected Device:</strong> ${doc["Affected Device"] || 'N/A'}</p>
-                        
-                        <p><strong>Troubleshooting Steps (Summary):</strong> ${doc["Troubleshooting Steps "] ? doc["Troubleshooting Steps "].substring(0, 100) + '...' : 'N/A'}</p>
+                        <p><strong>ID:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p>
+                        <p><strong>Severity:</strong> ${doc["Affected Device"] || 'N/A'}</p>
+                        <p><strong>Tags:</strong> ${doc["Tags"] || 'N/A'}</p>
+                        <p><strong>Title(Summary):</strong> ${doc["Title"] ? doc["Title"].substring(0, 100) + '...' : 'N/A'}</p>
                         `;
                     accordionContent.appendChild(docListItem);
 
@@ -191,15 +191,12 @@
             // Details for each doc in modal
             modalDetailsContent.innerHTML = `
                 <h3>Details for Document ID: ${doc._id}</h3>
-                <p><strong>Help Desk Tech:</strong> ${doc["Help Desk Tech"] || 'N/A'}</p>
-                <p><strong>Timestamp:</strong> ${doc["Timestamp"] || 'N/A'}</p>
-                <p><strong>Affected Device:</strong> ${doc["Affected Device"] || 'N/A'}</p>
-                <p><strong>Troubleshooting Steps:</strong> ${doc["Troubleshooting Steps "] || 'N/A'}</p>
-                <p><strong>Astea Ticket Number:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p>
-                <p><strong>Store Number:</strong> ${doc["Store Number"] || 'N/A'}</p>
-                <p><strong>Spoke With:</strong> ${doc["Spoke With"] || 'N/A'}</p>
-                <p><strong>What is the Request Type?:</strong> ${doc["What is the Request Type?"] || 'N/A'}</p>
-                <p><strong>Verified Cause and Resolution:</strong> ${doc["Verified Cause and Resolution"] || 'N/A'}</p>
+                <p><strong>Work Item Type:</strong> ${doc["Work Item Type"] || 'N/A'}</p>
+                <p><strong>ID:</strong> ${doc["ID"] || 'N/A'}</p>
+                <p><strong>Priority:</strong> ${doc["Priority"] || 'N/A'}</p>
+                <p><strong>Severity:</strong> ${doc["Severity"] || 'N/A'}</p>
+                <p><strong>Title:</strong> ${doc["Title"] || 'N/A'}</p>
+                <p><strong>Created Date:</strong> ${doc["Created Date"] || 'N/A'}</p>
                 <hr>
                 <h4>Raw Document Data:</h4>
                 <pre>${JSON.stringify(doc, null, 2)}</pre>
