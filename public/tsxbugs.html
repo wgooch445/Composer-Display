@@ -57,7 +57,7 @@
                 }
                 allDocuments = await response.json(); 
 
-                displayDocumentsGroupedByPriority(allDocuments); // Initial display of all documents
+                displayDocumentsGroupedBySeverity(allDocuments); // Initial display of all documents
 
                 // Add event listener for search input CHANGE THESE SEARCH TERMS
                 searchInput.addEventListener('keyup', () => { 
@@ -84,7 +84,7 @@
                               // requestType.includes(searchTerm) ||
                               // causeResolution.includes(searchTerm);
                     });
-                    displayDocumentsGroupedByPriority(filteredDocuments); // Call the new display function
+                    displayDocumentsGroupedBySeverity(filteredDocuments); // Call the new display function
                 });
 
                 // Add event listeners for modal (close when clicking outside or 'x')
@@ -103,8 +103,8 @@
             }
         });
 
-        // Function to display documents grouped by Priority
-        function displayDocumentsGroupedByPriority(documentsToDisplay) {
+        // Function to display documents grouped by Severity
+        function displayDocumentsGroupedBySeverity(documentsToDisplay) {
             const accordionContainer = document.getElementById('accordion-container');
             accordionContainer.innerHTML = ''; 
 
@@ -113,21 +113,21 @@
                 return;
             }
 
-            // Group documents by Priority
-            const groupedByPriority = documentsToDisplay.reduce((acc, doc) => {
-                const priority = doc["Priority"] || 'Unassigned Priority'; // Handle cases where prio might be missing
-                if (!acc[priority]) {
-                    acc[priority] = [];
+            // Group documents by severity
+            const groupedBySeverity = documentsToDisplay.reduce((acc, doc) => {
+                const severity = doc["Severity"] || 'Unassigned Severity'; // Handle cases where prio might be missing
+                if (!acc[severity]) {
+                    acc[severity] = [];
                 }
-                acc[priority].push(doc);
+                acc[severity].push(doc);
                 return acc;
             }, {});
 
-            // Sort by priority
-            const sortedPriority = Object.keys(groupedByPriority).sort();
+            // Sort by severity
+            const sortedSeverity = Object.keys(groupedBySeverity).sort();
 
-            sortedPriority.forEach(priority => {
-                const priorityDocuments = groupedByPriority[priority];
+            sortedSeverity.forEach(severity => {
+                const severityDocuments = groupedBySeverity[severity];
                 
                 // Creatse the accordion item (wrapper for header and content)
                 const accordionItem = document.createElement('div');
@@ -137,7 +137,7 @@
                 const accordionHeader = document.createElement('div');
                 accordionHeader.classList.add('accordion-header');
                 accordionHeader.innerHTML = `
-                    <span>${priority} (${priorityDocuments.length})</span> 
+                    <span>${severity} (${severityDocuments.length})</span> 
                     <span class="arrow">></span>
                 `;
                 accordionItem.appendChild(accordionHeader);
@@ -146,7 +146,7 @@
                 const accordionContent = document.createElement('div');
                 accordionContent.classList.add('accordion-content');
 
-                priorityDocuments.forEach((doc, index) => {
+                severityDocuments.forEach((doc, index) => {
                     const docListItem = document.createElement('div');
                     docListItem.classList.add('document-list-item');
                     docListItem.dataset.documentId = doc._id; // Store ID for modal
@@ -154,8 +154,9 @@
                     // Display summary info for each document within the accordion
                     
                     docListItem.innerHTML = `
-                        <p><strong>ID:</strong> ${doc["Astea Ticket Number"] || 'N/A'}</p>
-                        <p><strong>Severity:</strong> ${doc["Affected Device"] || 'N/A'}</p>
+                        <p><strong>Work Item Type:</strong> ${doc["Work Item Type"] || 'N/A'}</p>
+                        <p><strong>ID:</strong> ${doc["ID"] || 'N/A'}</p>
+                        <p><strong>Severity:</strong> ${doc["Severity"] || 'N/A'}</p>
                         <p><strong>Tags:</strong> ${doc["Tags"] || 'N/A'}</p>
                         <p><strong>Title(Summary):</strong> ${doc["Title"] ? doc["Title"].substring(0, 100) + '...' : 'N/A'}</p>
                         `;
