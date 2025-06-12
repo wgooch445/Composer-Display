@@ -68,7 +68,7 @@
                         const date = doc["Created Date"] ? String(doc["Created Date"]).toLowerCase() : '';
                         const priority = doc["Priority"] ? doc["Priority"].toLowerCase() : '';
                         const title = doc["Title"] ? doc["Title"].toLowerCase() : '';
-                        const severity= doc["Store Number"] ? String(doc["severity"]).toLowerCase() : '';
+                        const severity= doc["Severity"] ? String(doc["Severity"]).toLowerCase() : '';
                         const tags = doc["Tags"] ? doc["Tags"].toLowerCase() : '';
                        // const requestType = doc["What is the Request Type?"] ? doc["What is the Request Type?"].toLowerCase() : '';
                       //  const causeResolution = doc["Verified Cause and Resolution"] ? doc["Verified Cause and Resolution"].toLowerCase() : '';
@@ -80,7 +80,7 @@
                                priority.includes(searchTerm) ||
                                title.includes(searchTerm) ||
                                severity.includes(searchTerm) ||
-                               tags.includes(searchTerm) ||
+                               tags.includes(searchTerm);
                               // requestType.includes(searchTerm) ||
                               // causeResolution.includes(searchTerm);
                     });
