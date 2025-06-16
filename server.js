@@ -26,6 +26,16 @@ app.get('/tsxbugs', (req, res) => {
 	res.sendFile(__dirname + '/public/tsxbugs.html');
 });
 
+// adding route for dynamic text
+
+app.get('/api/dynamic-text', async (req, res) => {
+	try{
+		await client.connect();
+		const database = client.db("Information_Display")
+		const collection = databs.collection("Current_Issues_TSX");
+
+		//you are here*****
+
 app.use(express.static('public'));
 
 // Define the API endpoints to fetch documents from MongoDB
